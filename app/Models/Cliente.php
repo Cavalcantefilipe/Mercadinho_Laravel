@@ -17,7 +17,7 @@ class Cliente extends Model
 
     ];
 
-    public $timestamps = true;
+    public $timestamps = false;
 
 
     protected $hidden = [];

@@ -55,14 +55,11 @@ class ClienteController extends Controller
 
     public function createCliente(Request $request)
     {
-        $this->validate($request, [
-            'cpf_cnpj' => 'required|cpf_cnpj',
-        ]);
         $validacao = Validator::make(
             $request->all(),
             [
-                'nome'         => 'required|max:100',
-                'cpf/cnpj'     => 'required|numeric',
+                'nome'          => 'required|max:100',
+                'cpf/cnpj'      => 'required|cpf_cnpj',
 
             ],
             [
@@ -72,6 +69,7 @@ class ClienteController extends Controller
                 'exists'       => 'O :attribute deve estar cadastrado.'
             ]
         );
+
         if ($validacao->fails()) {
             return response()->json($validacao->errors(), Response::HTTP_BAD_REQUEST);
         } else {
@@ -86,14 +84,14 @@ class ClienteController extends Controller
 
     public function updateCliente(int $id, Request $request)
     {
-        $this->validate($request, [
-            'cpf/cnpj' => 'required|cpf_cnpj',
-        ]);
+        if(!$request['nome'] && !$request['cpf/cnpj']){
+            return response()->json('Sem campos para Alteracao', Response::HTTP_BAD_REQUEST);
+        }
         $validacao = Validator::make(
             $request->all(),
             [
-                'nome'         => 'required|max:100',
-                'cpf/cnpj'     => 'required|numeric',
+                'nome'          => 'sometimes|max:100',
+                'cpf/cnpj'      => 'sometimes|cpf_cnpj',
 
             ],
             [
