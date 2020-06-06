@@ -36,7 +36,12 @@ class ProdutoService
     public function createProduto(array $dados)
     {
         try {
-            return $this->produto->createProduto($dados);
+            if (count($dados) > 0) {
+                foreach ($dados as $dado) {
+                    $this->produto->createProduto($dado);
+                }
+                return $dados;
+            }
         } catch (QueryException $e) {
             return ['error' => $e->getMessage()];
         }

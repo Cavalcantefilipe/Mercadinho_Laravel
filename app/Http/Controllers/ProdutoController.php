@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\Produto\ProdutoService;
 use App\Http\Controllers\Controller;
+use App\Services\ItensVenda\ItensVendaService;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,10 +14,12 @@ class ProdutoController extends Controller
 {
 
     private $produtoSrv;
+    private $itensVendaSrv;
 
-    public function __construct(ProdutoService $produtoSrv)
+    public function __construct(ProdutoService $produtoSrv, ItensVendaService $itensVendaSrv)
     {
-        $this->produtoSrv = $produtoSrv;
+        $this->produtoSrv       = $produtoSrv;
+        $this->itensVendaSrv    = $itensVendaSrv;
     }
 
     public function getProdutos()
@@ -58,22 +61,25 @@ class ProdutoController extends Controller
         $validacao = Validator::make(
             $request->all(),
             [
-                'produto.*.descricao'       => 'required|max:100',
-                'produto.*.quantidade'      => 'required|numeric',
-                'produto.*.preco'           => 'regex:/^[0-9]+(\.[0-9][0-9]?)?$/'
+                'produto.*.descricao'       => 'required|unique:produto,descricao|max:100',
+                'produto.*.quantidade'      => 'required|numeric|min:0',
+                'produto.*.preco'           => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/|min:0'
 
             ],
             [
                 'max'          => 'O :attribute deve ter no maximo :max caracteres.',
-				'numeric'      => 'O campo :attribute deve ser numérico.',
-				'required'     => 'O campo :attribute é obrigatório.',
-				'exists'       => 'O :attribute deve estar cadastrado.'
+                'numeric'      => 'O campo :attribute deve ser numérico.',
+                'required'     => 'O campo :attribute é obrigatório.',
+                'exists'       => 'O :attribute deve estar cadastrado.',
+                'min'          => 'O valor minimo do :attribute é 0',
+                'unique'       => 'Já existe produto com essa descricao'
             ]
         );
         if ($validacao->fails()) {
             return response()->json($validacao->errors(), Response::HTTP_BAD_REQUEST);
         } else {
-            $data = $this->produtoSrv->createProduto($request->all());
+            $create = $request['produto'];
+            $data = $this->produtoSrv->createProduto($create);
             if (isset($data['error'])) {
                 return response()->json($data, Response::HTTP_INTERNAL_SERVER_ERROR);
             } else {
@@ -84,22 +90,31 @@ class ProdutoController extends Controller
 
     public function updateProduto(int $id, Request $request)
     {
-
+        $produto = $this->produtoSrv->getProduto($id);
+        if (!$produto) {
+            $error['error']  = 'Produto não existe';
+            return response()->json($error, Response::HTTP_BAD_REQUEST);
+        }
+        if (!$request['descricao'] && !$request['quantidade'] && !$request['preco']) {
+            $error['error'] = 'Sem campos para Alteracao';
+            return response()->json($error, Response::HTTP_BAD_REQUEST);
+        }
         $data = $request->all();
-
         $validacao = Validator::make(
             $data,
             [
-                'descricao'         => 'required|max:100',
-                'quantidade'        => 'required|numeric',
-                'preco'             => 'regex:/^[0-9]+(\.[0-9][0-9]?)?$/'
+                'descricao'         => 'sometimes|unique:produto,descricao',
+                'quantidade'        => 'sometimes|numeric|min:0',
+                'preco'             => 'sometimes|regex:/^[0-9]+(\.[0-9][0-9]?)?$/|min:0'
 
             ],
             [
                 'max'          => 'O :attribute deve ter no maximo :max caracteres.',
-				'numeric'      => 'O campo :attribute deve ser numérico.',
-				'required'     => 'O campo :attribute é obrigatório.',
-				'exists'       => 'O :attribute deve estar cadastrado.'
+                'numeric'      => 'O campo :attribute deve ser numérico.',
+                'required'     => 'O campo :attribute é obrigatório.',
+                'exists'       => 'O :attribute deve estar cadastrado.',
+                'min'          => 'O valor minimo do :attribute é 0',
+                'unique'       => 'Já existe produto com essa :attribute'
             ]
         );
 
@@ -108,14 +123,14 @@ class ProdutoController extends Controller
             return response()->json($validacao->errors(), Response::HTTP_BAD_REQUEST);
         } else {
 
-            $carro = $this->produtoSrv->updateProduto($id,$data);
+            $produto = $this->produtoSrv->updateProduto($id, $data);
 
             if (isset($data['error'])) {
 
-                return response()->json($carro, Response::HTTP_INTERNAL_SERVER_ERROR);
+                return response()->json($produto, Response::HTTP_INTERNAL_SERVER_ERROR);
             } else {
 
-                return response()->json($carro, Response::HTTP_OK);
+                return response()->json($produto, Response::HTTP_OK);
             }
         }
     }
@@ -141,14 +156,19 @@ class ProdutoController extends Controller
             return response()->json($validation->errors(), Response::HTTP_BAD_REQUEST);
         } else {
 
-            $carro = $this->produtoSrv->deleteProduto($id);
+            $produtoEmItemVenda = $this->itensVendaSrv->getItensVendas(0, $id);
+            if (count($produtoEmItemVenda) != 0) {
+                $error['error']  = 'Produto tem Venda no sistema';
+                return response()->json($error, Response::HTTP_BAD_REQUEST);
+            }
+            $produto = $this->produtoSrv->deleteProduto($id);
 
-            if (isset($carro['error'])) {
+            if (isset($produto['error'])) {
 
-                return response()->json($carro, Response::HTTP_INTERNAL_SERVER_ERROR);
+                return response()->json($produto, Response::HTTP_INTERNAL_SERVER_ERROR);
             } else {
 
-                return response()->json($carro, Response::HTTP_OK);
+                return response()->json($produto, Response::HTTP_OK);
             }
         }
     }

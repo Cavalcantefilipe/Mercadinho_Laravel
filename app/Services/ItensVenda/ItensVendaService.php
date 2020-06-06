@@ -15,10 +15,10 @@ class ItensVendaService
         $this->itensVenda = $itensVenda;
     }
 
-    public function getItensVendas()
+    public function getItensVendas($idVenda = null,$idProduto = null)
     {
         try {
-            return $this->itensVenda->getItensVendas();
+            return $this->itensVenda->getItensVendas($idVenda,$idProduto);
         } catch (QueryException $e) {
             return ['error' => $e->getMessage()];
         }
@@ -36,7 +36,12 @@ class ItensVendaService
     public function createItensVenda(array $dados)
     {
         try {
-            return $this->itensVenda->createItensVenda($dados);
+            if (count($dados) > 0) {
+                foreach ($dados as $dado) {
+                 $this->itensVenda->createItensVenda($dado);
+                }
+                return $dados;
+            }
         } catch (QueryException $e) {
             return ['error' => $e->getMessage()];
         }

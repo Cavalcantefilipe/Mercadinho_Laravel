@@ -20,7 +20,7 @@ class ItensVenda extends Migration
             $table->unsignedBigInteger('idProduto');
             $table->foreign('idProduto')->references('idProduto')->on('produto');
             $table->integer('quantidadeProduto');
-            $table->double('ValorProduto');
+            $table->double('valorProduto');
         });
     }
 

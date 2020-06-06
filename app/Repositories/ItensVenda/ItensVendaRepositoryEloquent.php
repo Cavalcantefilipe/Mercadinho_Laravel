@@ -16,16 +16,22 @@ class ItensVendaRepositoryEloquent implements ItensVendaRepositoryInterface
     }
 
 
-    public function getItensVendas()
+    public function getItensVendas(int $idVenda = null,int $idProduto = null)
     {
         $query = $this->itensVenda->select();
+        if($idVenda){
+            $query->where('idVenda',$idVenda);
+        }
+        if($idProduto){
+            $query->where('idProduto',$idProduto);
+        }
         return $query->get();
     }
 
     public function getItensVenda(int $id)
     {
         return $this->itensVenda->select()
-            ->where('idItensVenda', $id)
+            ->where('idItemVenda', $id)
             ->first();
     }
 

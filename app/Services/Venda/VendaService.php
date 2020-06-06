@@ -15,10 +15,10 @@ class VendaService
         $this->venda = $venda;
     }
 
-    public function getVendas()
+    public function getVendas($id = null)
     {
         try {
-            return $this->venda->getVendas();
+            return $this->venda->getVendas($id);
         } catch (QueryException $e) {
             return ['error' => $e->getMessage()];
         }

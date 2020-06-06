@@ -14,7 +14,7 @@ class ItensVenda extends Model
         'idVenda',
         'idProduto',
         'quantidadeProduto',
-        'ValorProduto'
+        'valorProduto'
 
     ];
 

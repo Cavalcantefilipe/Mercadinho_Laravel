@@ -15,10 +15,10 @@ class Venda extends Migration
     {
         Schema::create('venda', function (Blueprint $table) {
             $table->bigIncrements('idVenda');
-            $table->double('total');
+            $table->double('total')->default(0);
             $table->unsignedBigInteger('idCliente');
             $table->foreign('idCliente')->references('idCliente')->on('cliente');
-            $table->dateTime('finalizado');
+            $table->dateTime('finalizado')->nullable();
         });
     }
 

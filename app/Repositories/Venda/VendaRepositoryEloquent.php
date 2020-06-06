@@ -5,7 +5,6 @@ namespace App\Repositories\Venda;
 use App\Models\Venda;
 use App\Repositories\Venda\VendaRepositoryInterface;
 
-
 class VendaRepositoryEloquent implements VendaRepositoryInterface
 {
     private $venda;
@@ -16,9 +15,12 @@ class VendaRepositoryEloquent implements VendaRepositoryInterface
     }
 
 
-    public function getVendas()
+    public function getVendas($id = null)
     {
         $query = $this->venda->select();
+        if($id){
+            $query->where('idCliente',$id);
+        }
         return $query->get();
     }
 
