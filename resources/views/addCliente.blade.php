@@ -12,9 +12,9 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <link href="{{ URL::asset('css/home.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/home.js')}}"></script>
+    <script src="{{ asset('js/addCliente.js') }}" defer></script>
 </head>
 <body>
 
@@ -24,27 +24,38 @@
 
 <div class="menu">
     <article class="session">
-        <h2>Cliente</h2>
-        <div class="icons" id="icons">
-        <div><label class="mdi mdi-account-multiple-plus"><input type="button" name="icons" onclick="window.location='/CriarCliente';" ></label></div>
-        <div><label class="mdi mdi-account"><input type="button" name="icons"></label></div>
-        </div>
+    <div class="col-lg-12 form-horizontal">
 
-      </article>
-      <article class="session">
-        <h2>Produto</h2>
-    <div class="icons" id="icons">
-        <div><label class="mdi mdi-tag-plus"><input type="button" name="icons"></label></div>
-        <div><label class="mdi mdi-tag"><input type="button" name="icons"></label></div>
-    </div>
-</article>
-<article class="session">
-    <h2>Compra</h2>
-<div class="icons" id="icons">
-  <div><label class="mdi mdi-cart"><input type="button" name="icons"></label></div>
-</div>
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>Cadastro Cliente</legend>
+
+            <!-- Text input-->
+            <form >
+                @csrf
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="textinput">Nome:</label>
+                <div class="col-md-4">
+                    <input id="Name" name="nome" type="text" placeholder="Nome" class="form-control input-md">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="textinput">Cpf/Cnpj:</label>
+                <div class="col-md-4">
+                    <input id="Class" name="documento" type="text" placeholder="Cpf ou Cnpj"   class="form-control input-md">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="singlebutton"></label>
+                <div class="col-md-4">
+                    <button id="btEnviar" name="Add" class="btn btn-primary" >Criar Cliente</button>
+                </div>
+            </form>
+            <div id="display_here"></div>
+            </div>
+        </fieldset>
 </article>
 </div>
 </body>
 </html>
-
