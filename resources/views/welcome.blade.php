@@ -27,7 +27,7 @@
         <h2>Cliente</h2>
         <div class="icons" id="icons">
         <div><label class="mdi mdi-account-multiple-plus"><input type="button" name="icons" onclick="window.location='/CriarCliente';" ></label></div>
-        <div><label class="mdi mdi-account"><input type="button" name="icons"></label></div>
+        <div><label class="mdi mdi-account"><input type="button" name="icons" onclick="window.location='/Cliente';" ></label></div>
         </div>
 
       </article>

@@ -20,3 +20,11 @@ Route::get('/', function () {
 Route::get('CriarCliente', function () {
     return view('AddCliente');
 });
+
+Route::get('Cliente', function () {
+    return view('cliente');
+});
+
+Route::get('CriarProduto', function () {
+    return view('cliente');
+});

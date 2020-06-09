@@ -59,8 +59,35 @@ body {
     -webkit-box-shadow: 9px 7px 5px rgba(50, 50, 50, 0.77);
     -moz-box-shadow:    9px 7px 5px rgba(50, 50, 50, 0.77);
     box-shadow:         9px 7px 5px rgba(50, 50, 50, 0.77);
-    width: 60%;
-    height: 40%;
+    width: 80%;
   }
 
+  .modal-dialog{
+    position: absolute;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center
+  }
 
+  .container {
+    width: 100%;
+}
+
+table{
+    border: 1px ;
+    text-align: center;
+}
+
+th{
+    border: 1px solid;
+    text-align: center;
+}
+thead{
+    border: 1px;
+    text-align: center;
+}
+
+tr{
+    border: 1px solid;
+    text-align: center;
+}
