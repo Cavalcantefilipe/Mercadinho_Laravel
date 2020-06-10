@@ -22,9 +22,9 @@ class ClienteController extends Controller
         $this->vendaSrv     = $vendaSrv;
     }
 
-    public function getClientes()
+    public function getClientes($cpf = null)
     {
-        $data = $this->clienteSrv->getClientes();
+        $data = $this->clienteSrv->getClientes($cpf);
 
         if (isset($data['error'])) {
             return response()->json($data, Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -118,7 +118,13 @@ class ClienteController extends Controller
 
             return response()->json($validacao->errors(), Response::HTTP_BAD_REQUEST);
         } else {
-
+            $cpfDuplicado = $this->clienteSrv->getClientes($request['cpf/cnpj']);
+            if (count($cpfDuplicado) > 0) {
+                if ($cpfDuplicado[0]['idCliente'] != $id) {
+                    $error['error'] = 'CPF Já existe';
+                    return response()->json($error, Response::HTTP_BAD_REQUEST);
+                }
+            }
             $cliente = $this->clienteSrv->updateCliente($id, $request->all());
 
             if (isset($cliente['error'])) {

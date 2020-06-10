@@ -15,10 +15,10 @@ class ProdutoService
         $this->produto = $produto;
     }
 
-    public function getProdutos()
+    public function getProdutos($descricao = null)
     {
         try {
-            return $this->produto->getProdutos();
+            return $this->produto->getProdutos($descricao);
         } catch (QueryException $e) {
             return ['error' => $e->getMessage()];
         }

@@ -2,20 +2,30 @@ $(document).ready(function () {
     $("#btEnviar").bind();
 
     $("#btEnviar").click(function () {
-        var nome = $("input[name=nome]").val();
+        var descricao = $("input[name=descricao]").val();
 
-        var cpf = $("input[name=documento]").val();
+        var quantidade = $("input[name=quantidade]").val();
+
+        var preco = $("input[name=preco]").val();
 
         $.ajax({
             type: "POST",
-            url: "api/cliente",
-            data: { nome: nome, "cpf/cnpj": cpf },
+            url: "api/produto",
+            data: {
+                "produto": [
+                    {
+                        'descricao':descricao,
+                        'quantidade': quantidade,
+                        'preco'     : preco
+                    },
+                ],
+            },
             dataType: "JSON",
             success: function (data, textStatus, msg) {
                 swal(
                     {
                         title: "Success",
-                        text: "Cliente Cadastrado com sucesso",
+                        text: "Produto Cadastrado com sucesso",
                         type: "success",
                     },
                     function () {
@@ -29,14 +39,14 @@ $(document).ready(function () {
                 swal(
                     {
                         title: "Erro",
-                        text: `${message.join('\n')}`,
+                        text: `${message.join("\n")}`,
                         type: "error",
                     },
                     function () {
                         location.reload();
                     }
                 );
-            }
+            },
         });
         $("#btEnviar").unbind();
     });

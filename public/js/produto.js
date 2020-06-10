@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $.ajax({
         type: "get",
-        url: "api/clientes",
+        url: "api/produtos",
         success: function (data) {
             var x = Object.values(data);
             var res = "";
@@ -16,6 +16,10 @@ $(document).ready(function () {
                     "</td>" +
                     "<td>" +
                     Object.values(value)[2] +
+                    "</td>" +
+                    "<td>" +
+                    "R$ " +
+                    Object.values(value)[3] +
                     "</td>" +
                     "<td>" +
                     '<button type="button" id="' +
@@ -39,9 +43,10 @@ $(document).ready(function () {
 
         $("#ajaxModel").modal("show");
         $(document).on("click", "#saveBtn", function () {
-            var nome = $("#name").val();
-            var documento= $("#description").val();
-            ajaxUpdate(nome,documento,id)
+            var descricao = $("#descricao").val();
+            var quantidade = $("#quantidade").val();
+            var preco = $("#preco").val();
+            ajaxUpdate(descricao, quantidade, preco, id);
         });
     });
 
@@ -50,7 +55,7 @@ $(document).ready(function () {
         swal(
             {
                 title: "Tem certeza?",
-                text: " Deletar Cliente ",
+                text: " Deletar Produto ",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -60,14 +65,14 @@ $(document).ready(function () {
             function (isConfirm) {
                 if (!isConfirm) return;
                 $.ajax({
-                    url: `api/cliente/${id}`,
+                    url: `api/produto/${id}`,
                     type: "delete",
                     dataType: "JSON",
                     success: function () {
                         swal(
                             {
                                 title: "Success",
-                                text: "Cliente Deletado com sucesso",
+                                text: "Produto Deletado com sucesso",
                                 type: "success",
                             },
                             function () {
@@ -96,17 +101,17 @@ $(document).ready(function () {
     });
 });
 
-function ajaxUpdate(nome, documento, id) {
+function ajaxUpdate(descricao, quantidade, preco, id) {
     $.ajax({
-        url: `api/cliente/${id}`,
+        url: `api/produto/${id}`,
         type: "put",
         dataType: "JSON",
-        data: { nome: nome, "cpf/cnpj": documento },
+        data: { descricao: descricao, quantidade: quantidade, preco: preco },
         success: function () {
             swal(
                 {
                     title: "Success",
-                    text: "Cliente atualizado com sucesso",
+                    text: "Produto atualizado com sucesso",
                     type: "success",
                 },
                 function () {

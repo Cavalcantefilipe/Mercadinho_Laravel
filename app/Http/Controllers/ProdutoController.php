@@ -22,9 +22,9 @@ class ProdutoController extends Controller
         $this->itensVendaSrv    = $itensVendaSrv;
     }
 
-    public function getProdutos()
+    public function getProdutos($descricao = null)
     {
-        $data = $this->produtoSrv->getProdutos();
+        $data = $this->produtoSrv->getProdutos($descricao);
 
         if (isset($data['error'])) {
             return response()->json($data, Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -99,13 +99,18 @@ class ProdutoController extends Controller
             $error['error'] = 'Sem campos para Alteracao';
             return response()->json($error, Response::HTTP_BAD_REQUEST);
         }
+
+        $request['descricao'] = $request['descricao'] == null ? $produto['descricao'] : $request['descricao'];
+        $request['quantidade'] = $request['quantidade'] == null ? $produto['quantidade'] : $request['quantidade'];
+        $request['preco'] = $request['preco'] == null ? $produto['preco'] : $request['preco'];
+
         $data = $request->all();
         $validacao = Validator::make(
             $data,
             [
-                'descricao'         => 'sometimes|unique:produto,descricao',
-                'quantidade'        => 'sometimes|numeric|min:0',
-                'preco'             => 'sometimes|regex:/^[0-9]+(\.[0-9][0-9]?)?$/|min:0'
+                'descricao'         => 'required',
+                'quantidade'        => 'required|numeric|min:0',
+                'preco'             => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/|min:0'
 
             ],
             [
@@ -122,6 +127,14 @@ class ProdutoController extends Controller
 
             return response()->json($validacao->errors(), Response::HTTP_BAD_REQUEST);
         } else {
+
+            $descricaoDuplicada = $this->produtoSrv->getProdutos($data['descricao']);
+            if (count($descricaoDuplicada) > 0) {
+                if ($descricaoDuplicada[0]['idProduto'] != $id) {
+                    $error['error'] = 'Descricao Produto Já existe';
+                    return response()->json($error, Response::HTTP_BAD_REQUEST);
+                }
+            }
 
             $produto = $this->produtoSrv->updateProduto($id, $data);
 

@@ -16,9 +16,12 @@ class ClienteRepositoryEloquent implements ClienteRepositoryInterface
     }
 
 
-    public function getClientes()
+    public function getClientes($cpf = null)
     {
         $query = $this->cliente->select();
+        if($cpf){
+            $query->where('cpf/cnpj',$cpf);
+        }
         return $query->get();
     }
 

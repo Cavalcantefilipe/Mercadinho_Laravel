@@ -15,8 +15,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-    <link href="{{ URL::asset('css/cliente.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/cliente.js') }}" defer></script>
+    <link href="{{ URL::asset('css/produto.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/produto.js') }}" defer></script>
 </head>
 <body>
 
@@ -35,8 +35,9 @@
                      <table id="mytable" class="table table-bordred table-striped">
                         <thead>
                             <th><h3>ID</h3></th>
-                           <th><h3>Nome</h3></th>
-                           <th><h3>Cpf/Cnpj</h3></th>
+                           <th><h3>Descricao</h3></th>
+                           <th><h3>Quantidade</h3></th>
+                           <th><h3>Preço</h3></th>
                            <th><h3>Edit</h3></th>
                            <th><h3>Delete</h3></th>
                         </thead>
@@ -58,15 +59,21 @@
                         <form id="ItemForm" name="ItemForm" class="form-horizontal">
                            <input type="hidden" name="Item_id" id="Item_id">
                             <div class="form-group">
-                                <label for="name" class="col-sm-2 control-label">Nome</label>
+                                <label for="name" class="col-sm-2 control-label">Descricao</label>
                                 <div class="col-sm-12">
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" value="" maxlength="50">
+                                    <input type="text" class="form-control" id="descricao" name="descricao" placeholder="Enter Name" value="" maxlength="50">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">CPF/CNPJ</label>
+                                <label class="col-sm-3 control-label">Quantidade</label>
                                 <div class="col-sm-12">
-                                    <textarea id="description" name="description" placeholder="Enter descriptions" class="form-control"></textarea>
+                                    <input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="Enter Name" value="" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Preço</label>
+                                <div class="col-sm-12">
+                                    <input class="form-control" id="preco" name="preco" type="number" step="0.01" min="0"  placeholder="Preço" value="">
                                 </div>
                             </div>
                             <div class="col-sm-offset-2 col-sm-10">

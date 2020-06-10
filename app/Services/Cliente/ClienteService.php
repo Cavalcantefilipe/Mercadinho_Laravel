@@ -15,10 +15,10 @@ class ClienteService
         $this->cliente = $cliente;
     }
 
-    public function getClientes()
+    public function getClientes($cpf = null)
     {
         try {
-            return $this->cliente->getClientes();
+            return $this->cliente->getClientes($cpf);
         } catch (QueryException $e) {
             return ['error' => $e->getMessage()];
         }

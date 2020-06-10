@@ -16,9 +16,12 @@ class ProdutoRepositoryEloquent implements ProdutoRepositoryInterface
     }
 
 
-    public function getProdutos()
+    public function getProdutos($descricao = null)
     {
         $query = $this->produto->select();
+        if($descricao){
+            $query->where('descricao',$descricao);
+        }
         return $query->get();
     }
 

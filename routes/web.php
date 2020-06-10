@@ -26,5 +26,13 @@ Route::get('Cliente', function () {
 });
 
 Route::get('CriarProduto', function () {
-    return view('cliente');
+    return view('addProduto');
+});
+
+Route::get('Produto', function () {
+    return view('produto');
+});
+
+Route::get('Venda', function () {
+    return view('venda');
 });
