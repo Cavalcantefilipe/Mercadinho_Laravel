@@ -63,30 +63,34 @@ a:focus {
     -moz-box-shadow:    9px 7px 5px rgba(50, 50, 50, 0.77);
     box-shadow:         9px 7px 5px rgba(50, 50, 50, 0.77);
   }
-
-.shop__products {
-    padding-top: 70px;
+.show-cart li {
+  display: flex;
+}
+.card {
+  margin-bottom: 20px;
+}
+.card-img-top {
+  width: 200px;
+  height: 200px;
+  align-self: center;
 }
 
-.list-left li,
-.list-right li {
-    cursor: pointer;
+.container {
+    padding-top: 4%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
 }
-.list-left #quantidade {
-    width: 10%;
-    float: right;
-}
-.list-right #quantidade {
-    width: 10%;
+#produto{
     float: left;
+    width: 25%;
+    padding-top: 3%;
 }
-.list-right #preco {
-    width: 10%;
-    display: flex;
-    float: left;
-}
-.list-left #preco {
-    width: 10%;
-    display: flex;
-    float: right;
+#rowproduct{
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    text-align: center;
+    margin-right: 0px;
+    margin-left: 0px;
 }

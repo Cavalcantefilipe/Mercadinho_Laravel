@@ -34,5 +34,6 @@ Route::get('Produto', function () {
 });
 
 Route::get('Venda', function () {
-    return view('venda');
+    return view('cart');
 });
+

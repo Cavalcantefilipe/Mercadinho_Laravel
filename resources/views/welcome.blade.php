@@ -14,7 +14,6 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
     <link href="{{ URL::asset('css/home.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/home.js')}}"></script>
 </head>
 <body>
 
