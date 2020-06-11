@@ -17,7 +17,7 @@ class VendaRepositoryEloquent implements VendaRepositoryInterface
 
     public function getVendas($id = null)
     {
-        $query = $this->venda->select();
+        $query = $this->venda->select()->join('cliente','cliente.idCliente','=','venda.idCliente');
         if($id){
             $query->where('idCliente',$id);
         }

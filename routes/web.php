@@ -37,3 +37,8 @@ Route::get('Venda', function () {
     return view('cart');
 });
 
+Route::get('Bonus', function () {
+    return view('bonus');
+});
+
+

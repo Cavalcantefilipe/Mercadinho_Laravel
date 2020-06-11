@@ -41,6 +41,7 @@
     <h2>Compra</h2>
 <div class="icons" id="icons">
   <div><label class="mdi mdi-cart"><input type="button" name="icons" onclick="window.location='/Venda';"></label></div>
+  <div><label class="mdi mdi-cart-outline"><input type="radio" name="icons" onclick="window.location='/Bonus';"></label></div>
 </div>
 </article>
 </div>
