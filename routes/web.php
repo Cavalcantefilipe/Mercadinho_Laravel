@@ -18,7 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('CriarCliente', function () {
-    return view('AddCliente');
+    return view('addCliente');
 });
 
 Route::get('Cliente', function () {
